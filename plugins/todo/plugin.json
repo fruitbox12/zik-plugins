@@ -10,7 +10,7 @@
   },
   "api": {
     "type": "openapi",
-    "url": "https://raw.githubusercontent.com/zik-sh/plugins/main/plugins/todo/openapi.yaml",
+    "url": "https://raw.githubusercontent.com/fruitbox12/zik-plugins/main/plugins/todo/openapi.yaml",
     "is_user_authenticated": false
   },
   "logo_url": "https://raw.githubusercontent.com/zik-sh/plugins/main/plugins/todo/logo.png",
