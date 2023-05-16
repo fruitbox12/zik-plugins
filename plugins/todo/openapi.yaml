@@ -4,7 +4,7 @@ info:
   description: GmailAPI for ChatGPT
   version: '1.0'
 servers:
-  - url: http://localhost:5003
+  - url: https://functions-seven-psi.vercel.app/api
 paths:
   /emails:
     get:
