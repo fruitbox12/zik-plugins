@@ -1,93 +1,61 @@
 openapi: 3.0.1
 info:
-  title: TODO Plugin
-  description: A plugin that allows the user to create and manage a TODO list. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
-  version: 'v1'
+  title: GmailAPI Plugins
+  description: GmailAPI for ChatGPT
+  version: '1.0'
 servers:
-  - url: http://localhost:5002
+  - url: http://localhost:5003
 paths:
-  /todos/{username}:
+  /emails:
     get:
-      operationId: getTodos
-      summary: Get the list of todos
+      operationId: fetchEmails
+      summary: Fetch emails by date range
       parameters:
-      - in: path
-        name: username
-        schema:
+        - in: query
+          name: startDate
+          schema:
             type: string
-        required: true
-        description: The name of the user.
+            format: date
+          required: true
+          description: The start date of the email fetch range (YYYY-MM-DD).
+        - in: query
+          name: endDate
+          schema:
+            type: string
+            format: date
+          required: true
+          description: The end date of the email fetch range (YYYY-MM-DD).
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getTodosResponse'
-    post:
-      operationId: addTodo
-      summary: Add a todo to the list
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/addTodoRequest'
-      responses:
-        "200":
-          description: OK
-    delete:
-      operationId: deleteTodo
-      summary: Delete a todo from the list
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/deleteTodoRequest'
-      responses:
-        "200":
-          description: OK
-
-components:
-  schemas:
-    getTodosResponse:
-      type: object
-      properties:
-        todos:
-          type: array
-          items:
-            type: string
-          description: The list of todos.
-    addTodoRequest:
-      type: object
-      required:
-      - todo
-      properties:
-        todo:
-          type: string
-          description: The todo to add to the list.
-          required: true
-    deleteTodoRequest:
-      type: object
-      required:
-      - todo_idx
-      properties:
-        todo_idx:
-          type: integer
-          description: The index of the todo to delete.
-          required: true
+                $ref: '#/components/schemas/FetchedEmailsResponse'
+        '400':
+          description: Bad Request
+    components:
+      schemas:
+        FetchedEmailsResponse:
+          type: object
+          properties:
+            emails:
+              type: array
+              items:
+                $ref: '#/components/schemas/Email'
+              description: The list of fetched emails.
+        Email:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The ID of the email.
+            subject:
+              type: string
+              description: The subject of the email.
+            sender:
+              type: string
+              description: The sender of the email.
+            body:
+              type: string
+              description: The body of the email.
