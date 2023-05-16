@@ -6,56 +6,31 @@ info:
 servers:
   - url: https://functions-seven-psi.vercel.app/api
 paths:
-  /emails:
+  /api/emails:
     get:
-      operationId: fetchEmails
-      summary: Fetch emails by date range
-      parameters:
-        - in: query
-          name: startDate
-          schema:
-            type: string
-            format: date
-          required: true
-          description: The start date of the email fetch range (YYYY-MM-DD).
-        - in: query
-          name: endDate
-          schema:
-            type: string
-            format: date
-          required: true
-          description: The end date of the email fetch range (YYYY-MM-DD).
+      operationId: getEmails
+      summary: Get email messages
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FetchedEmailsResponse'
-        '400':
-          description: Bad Request
-    components:
-      schemas:
-        FetchedEmailsResponse:
-          type: object
-          properties:
-            emails:
-              type: array
-              items:
-                $ref: '#/components/schemas/Email'
-              description: The list of fetched emails.
-        Email:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The ID of the email.
-            subject:
-              type: string
-              description: The subject of the email.
-            sender:
-              type: string
-              description: The sender of the email.
-            body:
-              type: string
-              description: The body of the email.
+                $ref: '#/components/schemas/EmailMessages'
+components:
+  schemas:
+    EmailMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        subject:
+          type: string
+        sender:
+          type: string
+        body:
+          type: string
+    EmailMessages:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmailMessage'
