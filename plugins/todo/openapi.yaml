@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: GmailAPI Plugins
-  description: GmailAPI for ChatGPT
+  title: emails Plugins
+  description: access emails for ChatGPT
   version: '1.0'
 servers:
   - url: https://functions-seven-psi.vercel.app
