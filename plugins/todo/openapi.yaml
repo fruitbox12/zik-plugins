@@ -9,7 +9,7 @@ paths:
   /api/emails:
     get:
       operationId: getEmails
-      summary: Get email messages
+      summary: Get email messages by body, id, sender. or subject
       responses:
         '200':
           description: OK
