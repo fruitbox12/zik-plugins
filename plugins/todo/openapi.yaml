@@ -1,93 +1,94 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
-  title: TODO Plugin
-  description: A plugin that allows the user to create and manage a TODO list. If you do not know the user's username, ask them first before making queries to the plugin. Otherwise, use the username "global".
-  version: 'v1'
+  title: Weave Workflow Automation Plugin
+  description: A plugin that allows the user to create and deploy workflows via node integrations
+
+  version: v1
 servers:
-  - url: http://localhost:5002
+  - url: http://54.215.242.153:3000
+    description: Local server
 paths:
-  /todos/{username}:
+  /api/v1/workflows:
     get:
-      operationId: getTodos
-      summary: Get the list of todos
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
+      summary: Get all workflows
       responses:
-        "200":
-          description: OK
+        '200':
+          description: A list of workflows
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/getTodosResponse'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
     post:
-      operationId: addTodo
-      summary: Add a todo to the list
-      parameters:
-      - in: path
-        name: username
-        schema:
-            type: string
-        required: true
-        description: The name of the user.
+      summary: Create a new workflow
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/addTodoRequest'
+              $ref: '#/components/schemas/Workflow'
       responses:
-        "200":
-          description: OK
+        '201':
+          description: New workflow created
+
+  /api/v1/workflows/{shortId}:
+    get:
+      summary: Get a specific workflow by its shortId
+      parameters:
+        - in: path
+          name: shortId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Details of a specific workflow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+    put:
+      summary: Update a workflow
+      parameters:
+        - in: path
+          name: shortId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workflow'
+      responses:
+        '200':
+          description: Workflow updated
     delete:
-      operationId: deleteTodo
-      summary: Delete a todo from the list
+      summary: Delete a workflow
       parameters:
-      - in: path
-        name: username
-        schema:
+        - in: path
+          name: shortId
+          required: true
+          schema:
             type: string
-        required: true
-        description: The name of the user.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/deleteTodoRequest'
       responses:
-        "200":
-          description: OK
+        '200':
+          description: Workflow deleted
+
+  # Define other paths similarly...
 
 components:
   schemas:
-    getTodosResponse:
+    Workflow:
       type: object
       properties:
-        todos:
-          type: array
-          items:
-            type: string
-          description: The list of todos.
-    addTodoRequest:
-      type: object
-      required:
-      - todo
-      properties:
-        todo:
+        id:
           type: string
-          description: The todo to add to the list.
-          required: true
-    deleteTodoRequest:
-      type: object
-      required:
-      - todo_idx
-      properties:
-        todo_idx:
-          type: integer
-          description: The index of the todo to delete.
-          required: true
+        name:
+          type: string
+        # Add other properties...
+
+    # Define other schemas...
+
