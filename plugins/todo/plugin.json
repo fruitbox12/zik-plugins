@@ -1,16 +1,16 @@
 {
   "schema_version": "v1",
-  "name_for_human": "TODO Plugin",
-  "name_for_model": "todo",
+  "name_for_human": "Weave Plugin",
+  "name_for_model": "Weave",
   "supported_models": ["gpt-4", "gpt-3.5-turbo"],
-  "description_for_human": "Plugin for managing a TODO list. You can add, remove and view your TODOs.",
-  "description_for_model": "Plugin for managing a TODO list. You can add, remove and view your TODOs.",
+  "description_for_human": "Plugin for managing a Weave Workflow Automation. You can add, remove and view your Automation.",
+  "description_for_model": "Plugin for managing and deploying  Automation Workflows",
   "auth": {
     "type": "none"
   },
   "api": {
     "type": "openapi",
-    "url": "https://raw.githubusercontent.com/zik-sh/plugins/main/plugins/todo/openapi.yaml",
+    "url": "https://raw.githubusercontent.com/fruitbox12/zik-plugins/plugins/main/plugins/todo/openapi.yaml",
     "is_user_authenticated": false
   },
   "logo_url": "https://raw.githubusercontent.com/zik-sh/plugins/main/plugins/todo/logo.png",
