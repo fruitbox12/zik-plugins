@@ -5,7 +5,7 @@ info:
 
   version: v1
 servers:
-  - url: https://workflow-function.vercel.app?X-Tenant-ID=dylanwong007@gmail.com
+  - url: https://workflow-function.vercel.app?X-Tenant-ID=dylan@simplyfi.cloud
     description: Local server
 paths:
   /api/v1/workflows:
