@@ -5,12 +5,19 @@ info:
 
   version: v1
 servers:
-  - url: https://workflow-function.vercel.app?X-Tenant-ID=dylan@simplyfi.cloud
+  - url: https://workflow-function.vercel.app
     description: Local server
 paths:
   /api/v1/workflows:
     get:
       summary: Get all workflows
+      parameters:
+        - name: X-Tenant-ID
+          in: header
+          required: true
+          schema:
+            type: string
+          example: "dylanwong007@gmail.com"
       responses:
         '200':
           description: A list of workflows
