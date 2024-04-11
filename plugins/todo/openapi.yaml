@@ -6,7 +6,7 @@ info:
 servers:
   - url: https://workflow-function.vercel.app/
 paths:
-  /workflows:
+  /api/v1/workflows:
     get:
       summary: List all workflows for a tenant
       operationId: listWorkflows
@@ -48,7 +48,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Workflow'
-  /workflows/{shortId}:
+  /api/v1/workflows/{shortId}:
     get:
       summary: Get a specific workflow by shortId
       operationId: getWorkflow
