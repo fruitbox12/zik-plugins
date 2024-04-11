@@ -1,36 +1,113 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
-  title: emails Plugins
-  description: access emails for ChatGPT
-  version: '1.0'
+  title: Workflow Management API
+  version: 1.0.0
+  description: API for managing workflows, their deployment, execution, and data retrieval.
 servers:
-  - url: https://functions-seven-psi.vercel.app
+  - url: https://workflow-function.vercel.app/
 paths:
-  /api/emails:
+  /workflows:
     get:
-      operationId: getEmails
-      summary: Get email messages by body, id, sender. or subject
+      summary: List all workflows for a tenant
+      operationId: listWorkflows
+      parameters:
+        - name: X-Tenant-ID
+          in: header
+          required: true
+          schema:
+            type: string
       responses:
         '200':
-          description: OK
+          description: A list of workflows
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmailMessages'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+    post:
+      summary: Create a new workflow
+      operationId: createWorkflow
+      parameters:
+        - name: X-Tenant-ID
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workflow'
+      responses:
+        '200':
+          description: Workflow created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+  /workflows/{shortId}:
+    get:
+      summary: Get a specific workflow by shortId
+      operationId: getWorkflow
+      parameters:
+        - name: shortId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: X-Tenant-ID
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+    put:
+      summary: Update a workflow
+      operationId: updateWorkflow
+      parameters:
+        - name: shortId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: X-Tenant-ID
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workflow'
+      responses:
+        '200':
+          description: Workflow updated
 components:
   schemas:
-    EmailMessage:
+    Workflow:
       type: object
       properties:
-        id:
+        shortId:
           type: string
-        subject:
+        name:
           type: string
-        sender:
+        description:
           type: string
-        body:
-          type: string
-    EmailMessages:
-      type: array
-      items:
-        $ref: '#/components/schemas/EmailMessage'
+        nodes:
+          type: array
+          items:
+            type: object
+        edges:
+          type: array
+          items:
+            type: object
