@@ -16,6 +16,7 @@ paths:
           required: true
           schema:
             type: string
+          example: "dylanwong007@gmail.com"
       responses:
         '200':
           description: A list of workflows
