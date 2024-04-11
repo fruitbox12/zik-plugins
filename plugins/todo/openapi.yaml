@@ -17,7 +17,7 @@ paths:
           required: true
           schema:
             type: string
-          example: "dylanwong007@gmail.com"
+          example: "dylan@simplyfi.cloud"
       responses:
         '200':
           description: A list of workflows
