@@ -1,10 +1,10 @@
 {
   "schema_version": "v1",
-  "name_for_human": "emails Plugin",
-  "name_for_model": "email plugin",
+  "name_for_human": "weave Plugin",
+  "name_for_model": "weave plugin",
   "supported_models": ["gpt-4", "gpt-3.5-turbo"],
-  "description_for_human": "Plugin for retrieving email via vercel API, you can fetch emails.",
-  "description_for_model": "Plugin for retrieving email via vercel API,via Get request you will receive all emails.",
+  "description_for_human": "Plugin for interacting with Weave Automation API.",
+  "description_for_model": "Plugin for managing and creating workflow automations on Weave.Cloud.",
   "auth": {
     "type": "none"
   },
