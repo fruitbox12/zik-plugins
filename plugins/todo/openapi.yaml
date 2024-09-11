@@ -1,87 +1,97 @@
 openapi: 3.0.0
 info:
-  title: Weave Webhooks API
-  description: API for handling transactions via webhook.
-  version: 1.0.0
+  title: Weave Workflow Automation Plugin
+  description: A plugin that allows the user to create and deploy workflows via node integrations
+
+  version: v1
 servers:
-  - url: https://api.weave.services
+  - url: https://workflow-function.vercel.app
+    description: Local server
 paths:
-  /api/webhooks/66e1cbb2a1b0d519f91bc82e:
-    post:
-      summary: Handle transactions via webhook
-      operationId: postTransactionsWebhook
+  /api/v2/workflows:
+    get:
+      summary: Get all workflows
       parameters:
         - name: X-Tenant-ID
-          in: query
+          in: header
           required: true
           schema:
             type: string
-          example: dylanwong007@gmail.com
+          example: "dylan@simplyfi.cloud"
+      responses:
+        '200':
+          description: A list of workflows
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+    post:
+      summary: Create a new workflow
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                transactions:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      id:
-                        type: string
-                      amount:
-                        type: number
-                      date:
-                        type: string
-                        format: date
-                      description:
-                        type: string
-                      category:
-                        type: string
-                      status:
-                        type: string
-                      currency:
-                        type: string
-                      merchant:
-                        type: string
-                    required:
-                      - id
-                      - amount
-                      - date
-                      - description
+              $ref: '#/components/schemas/Workflow'
+      responses:
+        '201':
+          description: New workflow created
+
+  /api/v2/workflows/{shortId}:
+    get:
+      summary: Get a specific workflow by its shortId
+      parameters:
+        - in: path
+          name: shortId
+          required: true
+          schema:
+            type: string
       responses:
         '200':
-          description: Transaction data processed successfully
-        '400':
-          description: Invalid request
-        '500':
-          description: Internal server error
+          description: Details of a specific workflow
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workflow'
+    put:
+      summary: Update a workflow
+      parameters:
+        - in: path
+          name: shortId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workflow'
+      responses:
+        '200':
+          description: Workflow updated
+    delete:
+      summary: Delete a workflow
+      parameters:
+        - in: path
+          name: shortId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow deleted
 components:
   schemas:
-    Transaction:
+    Workflow:
       type: object
       properties:
         id:
           type: string
-        amount:
-          type: number
-        date:
+        name:
           type: string
-          format: date
-        description:
-          type: string
-        category:
-          type: string
-        status:
-          type: string
-        currency:
-          type: string
-        merchant:
-          type: string
-      required:
-        - id
-        - amount
-        - date
-        - description
+        # Add other properties...
+
+    # Define other schemas...
