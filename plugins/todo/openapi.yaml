@@ -1,97 +1,219 @@
 openapi: 3.0.0
 info:
-  title: Weave Workflow Automation Plugin
-  description: A plugin that allows the user to create and deploy workflows via node integrations
-
-  version: v1
+  title: Weave API
+  version: '1.0'
+  description: Weave API application
 servers:
-  - url: https://workflow-function.vercel.app
-    description: Local server
+  - url: https://api.weave.com
 paths:
-  /api/v2/workflows:
+  /api:
     get:
-      summary: Get all workflows
-      parameters:
-        - name: X-Tenant-ID
-          in: header
-          required: true
-          schema:
-            type: string
-          example: "dylan@simplyfi.cloud"
+      summary: App Health
       responses:
         '200':
-          description: A list of workflows
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Workflow'
+          description: Successful response
+  /api/workflows:
+    get:
+      summary: Retrieve all workflows
+      responses:
+        '200':
+          description: Successful response
     post:
       summary: Create a new workflow
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Workflow'
       responses:
         '201':
-          description: New workflow created
-
-  /api/v2/workflows/{shortId}:
+          description: Workflow created
+  /api/workflows/{workflow_id}:
     get:
-      summary: Get a specific workflow by its shortId
+      summary: Retrieve a specific workflow
       parameters:
-        - in: path
-          name: shortId
+        - name: workflow_id
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Details of a specific workflow
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Workflow'
+          description: Successful response
     put:
-      summary: Update a workflow
+      summary: Update a specific workflow
       parameters:
-        - in: path
-          name: shortId
+        - name: workflow_id
+          in: path
           required: true
           schema:
             type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Workflow'
       responses:
         '200':
           description: Workflow updated
     delete:
-      summary: Delete a workflow
+      summary: Delete a specific workflow
       parameters:
-        - in: path
-          name: shortId
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Workflow deleted
+  /api/workflows/{workflow_id}/executions:
+    get:
+      summary: Retrieve executions for a specific workflow
+      parameters:
+        - name: workflow_id
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: Workflow deleted
+          description: Successful response
+  /api/workflows/deploy/{workflow_id}:
+    post:
+      summary: Deploy a specific workflow
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow deployed
+  /api/workflows/health:
+    get:
+      summary: Workflows service health check
+      responses:
+        '200':
+          description: Service is healthy
+  /api/executions/workflow/{workflow_id}:
+    get:
+      summary: Retrieve executions for a specific workflow
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/executions/{execution_id}:
+    get:
+      summary: Retrieve a specific execution
+      parameters:
+        - name: execution_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+  /api/executions/health:
+    get:
+      summary: Executions service health check
+      responses:
+        '200':
+          description: Service is healthy
+  /api/webhooks/workflow/{workflow_id}:
+    get:
+      summary: Retrieve webhooks for a specific workflow
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create a webhook for a specific workflow
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Webhook created
+  /api/webhooks/health:
+    get:
+      summary: Webhooks service health check
+      responses:
+        '200':
+          description: Service is healthy
+  /api/workspaces:
+    get:
+      summary: Retrieve all workspaces
+      responses:
+        '200':
+          description: Successful response
+    post:
+      summary: Create a new workspace
+      responses:
+        '201':
+          description: Workspace created
+  /api/workspaces/{workspace_id}:
+    get:
+      summary: Retrieve a specific workspace
+      parameters:
+        - name: workspace_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update a specific workspace
+      parameters:
+        - name: workspace_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workspace updated
+    delete:
+      summary: Delete a specific workspace
+      parameters:
+        - name: workspace_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Workspace deleted
+  /api/workspaces/health:
+    get:
+      summary: Workspaces service health check
+      responses:
+        '200':
+          description: Service is healthy
 components:
   schemas:
-    Workflow:
+    WorkflowDto:
       type: object
       properties:
         id:
           type: string
         name:
           type: string
-        # Add other properties...
-
-    # Define other schemas...
+        description:
+          type: string
+    WorkspaceDto:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
